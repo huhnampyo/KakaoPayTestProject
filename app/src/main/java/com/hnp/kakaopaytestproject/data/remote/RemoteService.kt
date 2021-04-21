@@ -9,10 +9,8 @@ interface RemoteService {
     @GET("v3/search/book")
     fun getSearchBook(
         @Query("query") query: String,
-        @Query("sort") sort: String,
         @Query("page") page: Int,
-        @Query("size") size: Int,
-        @Query("target") target: String
+        @Query("size") size: Int
     ): Single<BooksResponse>
 
 }

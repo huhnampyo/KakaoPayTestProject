@@ -7,11 +7,13 @@ import javax.inject.Inject
 
 class MainRequester @Inject constructor(private val appService: AppService) {
     fun requestSearchBook(query: String,
-                         sort: String,
-                         page: Int,
-                         size: Int,
-                         target: String,
-                         callback: Callback<BooksResponse>) {
-        appService.requestSearchBook(query, sort, page, size, target, callback)
-    }
+                          page: Int,
+                          size: Int,
+                          callback: Callback<BooksResponse>) =
+        appService.requestSearchBook(query, page, size, callback)
+
+    fun requestSearchBook(query: String,
+                          page: Int,
+                          size: Int) =
+        appService.requestSearchBook(query, page, size)
 }
