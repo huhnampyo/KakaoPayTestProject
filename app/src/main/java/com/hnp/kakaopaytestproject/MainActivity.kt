@@ -2,7 +2,6 @@ package com.hnp.kakaopaytestproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.hnp.kakaopaytestproject.presentation.main.MainFragment
@@ -12,10 +11,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    override fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {
-        return viewModelFactory
-    }
 
     private val mainViewModel by viewModels<MainViewModel>()
 
@@ -31,5 +26,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 )
                 .commit()
         }
+    }
+
+    override fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {
+        return viewModelFactory
     }
 }

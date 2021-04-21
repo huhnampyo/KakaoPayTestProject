@@ -28,7 +28,7 @@ android {
                 variant.outputs.all {
                     def date = new Date()
                     def formattedDate = date.format('yyyyMMdd')
-                    outputFileName = "KBLand_${defaultConfig.versionName}_${formattedDate}_debug.apk"
+                    outputFileName = "KakaoTest_hnp_debug_${defaultConfig.versionName}_${formattedDate}_debug.apk"
                 }
             }
         }
@@ -43,7 +43,7 @@ android {
                 variant.outputs.all {
                     def date = new Date()
                     def formattedDate = date.format('yyyyMMdd')
-                    outputFileName = "KBLand_${defaultConfig.versionName}_${formattedDate}.apk"
+                    outputFileName = "KakaoTest_hnp_release_${defaultConfig.versionName}_${formattedDate}.apk"
                 }
             }
         }
