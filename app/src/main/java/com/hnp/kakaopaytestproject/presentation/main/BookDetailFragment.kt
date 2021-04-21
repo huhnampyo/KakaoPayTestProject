@@ -19,7 +19,6 @@ class BookDetailFragment : Fragment(R.layout.fragment_main) {
 
         Log.e("hnp", "MainFragment onViewCreated")
 
-        testTextView.text = "테스트 입력"
         if(savedInstanceState == null){
         }
 

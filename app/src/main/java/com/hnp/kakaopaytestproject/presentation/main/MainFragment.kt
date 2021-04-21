@@ -4,34 +4,55 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hnp.kakaopaytestproject.KakaoApp
 import com.hnp.kakaopaytestproject.R
+import com.hnp.kakaopaytestproject.presentation.main.paging.BookMainPageAdapter
 import com.hnp.kakaopaytestproject.presentation.main.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment(R.layout.fragment_main) {
     private val viewModel by activityViewModels<MainViewModel>()
 
+    private val bookMainPageAdapter by lazy { createBookMainPageAdapter() }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         Log.e("hnp", "MainFragment onViewCreated")
 
-        testTextView.text = "테스트 입력"
-        if(savedInstanceState == null){
-        }
+        initUI()
+        viewModel.requestSearchBook("미움받을 용기").observe(
+                viewLifecycleOwner, Observer { items ->
+            items?.let { bookMainPageAdapter.submitList(items) }
+        })
+    }
 
-        viewModel.requestSearchBook("미움받을 용기")
+    private fun initUI(){
+        contentRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+        contentRecyclerView.setHasFixedSize(true)
+        contentRecyclerView.adapter = bookMainPageAdapter
+    }
+
+    private fun createBookMainPageAdapter(): BookMainPageAdapter {
+        return BookMainPageAdapter {
+            viewModel.selectBook.set(it)
+        }
     }
 
     override fun onAttach(context: Context) {
         (requireActivity().application as KakaoApp)
-            .appComponent
-            .mainComponent()
-            .create()
-            .inject(this)
+                .appComponent
+                .mainComponent()
+                .create()
+                .inject(this)
 
         super.onAttach(context)
     }

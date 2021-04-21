@@ -1,10 +1,12 @@
 package com.hnp.kakaopaytestproject.presentation.main.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.hnp.kakaopaytestproject.Test
-import com.hnp.kakaopaytestproject.application.Callback
-import com.hnp.kakaopaytestproject.data.remote.book.BooksResponse
+import androidx.paging.*
+import com.hnp.kakaopaytestproject.data.remote.book.Document
 import com.hnp.kakaopaytestproject.presentation.MainRequester
+import com.hnp.kakaopaytestproject.presentation.main.paging.BooksDataSource
+import com.hnp.kakaopaytestproject.presentation.main.paging.PagingOptions
 import com.hnp.kakaopaytestproject.presentation.viewmodel.LiveVar
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,23 +16,19 @@ class MainViewModel @Inject constructor(
     val mainRequester: MainRequester
 ): ViewModel() {
 
-    val openLayoutType = LiveVar<String>()
+    val errorMessage = LiveVar<String>()
 
-    fun requestSearchBook(bookName: String) {
-        mainRequester.requestSearchBook(query=bookName,
-            sort="",
-            page=1,
-            size=1,
-            target="",
-            callback = object: Callback<BooksResponse> {
-                override fun onSuccess(result: BooksResponse) {
+    val selectBook = LiveVar<Document>()
 
-                }
+    fun requestSearchBook(bookName: String): LiveData<PagedList<Document>> {
+        return LivePagedListBuilder<Int, Document>(dataSource(bookName), PagingOptions.pageListConfig()).build()
+    }
 
-                override fun onFailure(e: Throwable) {
-                    e.printStackTrace()
-                }
+    private fun dataSource(bookName : String): DataSource.Factory<Int, Document> {
+        return object : DataSource.Factory<Int, Document>() {
+            override fun create(): DataSource<Int, Document> {
+                return BooksDataSource(bookName, mainRequester)
             }
-        )
+        }
     }
 }

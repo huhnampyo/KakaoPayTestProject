@@ -2,6 +2,7 @@ package com.hnp.kakaopaytestproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.hnp.kakaopaytestproject.presentation.main.MainFragment
@@ -12,7 +13,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val mainViewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as KakaoApp).appComponent.inject(this)
@@ -25,6 +26,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     MainFragment.newInstance()
                 )
                 .commit()
+        }
+
+        viewModel.selectBook.nonNullObserve(this){
+            Toast.makeText(this, "it.title : ${it.title}", Toast.LENGTH_SHORT).show()
         }
     }
 
