@@ -1,5 +1,7 @@
 package com.hnp.kakaopaytestproject.presentation.extension
 
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.ISODateTimeFormat
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -92,4 +94,11 @@ fun String.toFormattedPrice(만여부: Boolean): String {
             }
         }
     }
+}
+
+fun String.getConvertDateToString(customFormat: String):String{
+    val dtf: org.joda.time.format.DateTimeFormatter? = ISODateTimeFormat.dateTime()
+    val parsedDate: org.joda.time.LocalDateTime? = dtf?.parseLocalDateTime(this)
+    return parsedDate?.toString(DateTimeFormat.forPattern(customFormat))
+            ?: "-"
 }

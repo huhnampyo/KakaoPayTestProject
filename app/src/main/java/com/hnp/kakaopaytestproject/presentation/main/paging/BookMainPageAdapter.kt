@@ -1,14 +1,24 @@
 package com.hnp.kakaopaytestproject.presentation.main.paging
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.hnp.kakaopaytestproject.R
 import com.hnp.kakaopaytestproject.data.remote.book.Document
+import com.hnp.kakaopaytestproject.presentation.GlideApp
+import com.hnp.kakaopaytestproject.presentation.extension.getConvertDateToString
 import kotlinx.android.synthetic.main.viewholder_book_content.view.*
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.ISODateTimeFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class BookMainPageAdapter(private val action: (content: Document) -> Unit = {}) : PagedListAdapter<Document, BookMainPageAdapter.ViewHolder>(diffCallback) {
 
@@ -38,7 +48,29 @@ class BookMainPageAdapter(private val action: (content: Document) -> Unit = {}) 
     class ViewHolder(itemView: View, private val clickAction: (content: Document) -> Unit = {}) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: Document) {
-            itemView.testTextView.text = item.title
+
+            GlideApp.with(itemView.bookImageVIew)
+                    .load(item.thumbnail)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .centerCrop()
+                    .into(itemView.bookImageVIew)
+            itemView.bookNameTextView.text = "책 이름 : \n${item.title}"
+            itemView.createDateTextView.text = "출시일 : \n${item.datetime.getConvertDateToString("yyyy년-MM월-dd일")}"
+            itemView.singleLineDurationTextView.text = "${item.contents}"
+            itemView.priceTextView.text = "${item.price}"
+            item.sale_price?.let {
+                itemView.priceTextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                itemView.priceSaleTextView.text = " / $it"
+            }
+
+            itemView.likeCheckBox.setOnCheckedChangeListener(null)
+            itemView.likeCheckBox.isChecked = item.isLike
+
+            itemView.likeCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                item.isLike = isChecked
+            }
+
             itemView.setOnClickListener { clickAction.invoke(item) }
         }
     }

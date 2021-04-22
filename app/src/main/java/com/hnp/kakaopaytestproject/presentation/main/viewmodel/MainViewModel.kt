@@ -18,7 +18,7 @@ class MainViewModel @Inject constructor(
 
     val errorMessage = LiveVar<String>()
 
-    val selectBook = LiveVar<Document>()
+    val selectedBook = LiveVar<Document>()
 
     fun requestSearchBook(bookName: String): LiveData<PagedList<Document>> {
         return LivePagedListBuilder<Int, Document>(dataSource(bookName), PagingOptions.pageListConfig()).build()

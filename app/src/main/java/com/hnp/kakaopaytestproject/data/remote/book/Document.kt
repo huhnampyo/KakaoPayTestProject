@@ -28,5 +28,6 @@ data class Document(
     @Json(name = "translators")
     val translators: List<String>,
     @Json(name = "url")
-    val url: String
+    val url: String,
+    var isLike: Boolean = false
 )

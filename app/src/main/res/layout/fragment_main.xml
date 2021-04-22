@@ -7,11 +7,13 @@
     android:background="@android:color/transparent"
     tools:showPaths="true">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/swipeRefreshLayout"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_constraintTop_toBottomOf="@+id/searchRootView"
+        app:layout_constraintLeft_toLeftOf="parent"
         >
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/contentRecyclerView"
@@ -24,5 +26,21 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/viewholder_book_content"
             />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/searchRootView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iconifiedByDefault="false"
+            app:queryHint="책이름을 검색하세요"
+            />
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

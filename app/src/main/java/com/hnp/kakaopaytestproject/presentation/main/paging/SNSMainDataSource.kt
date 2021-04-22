@@ -38,17 +38,21 @@ class BooksDataSource(
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Document>) {
 
-        mainRequester.requestSearchBook(query = searchName, page=page++, size=50, callback=object :
-            Callback<BooksResponse>{
-            override fun onSuccess(result: BooksResponse) {
-                callback.onResult(result.documents)
-            }
+        if( page*50 < totalElements ){
+            Log.d("hnp", "=== loadRange ===")
+            mainRequester.requestSearchBook(query = searchName, page=page++, size=50, callback=object :
+                    Callback<BooksResponse>{
+                override fun onSuccess(result: BooksResponse) {
+                    callback.onResult(result.documents)
+                }
 
-            override fun onFailure(e: Throwable) {
-                e.printStackTrace()
-            }
+                override fun onFailure(e: Throwable) {
+                    e.printStackTrace()
+                }
 
-        })
+            })
+        }
+
     }
 
     private fun totalElements(): Int {

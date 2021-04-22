@@ -28,9 +28,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 .commit()
         }
 
-        viewModel.selectBook.nonNullObserve(this){
-            Toast.makeText(this, "it.title : ${it.title}", Toast.LENGTH_SHORT).show()
-        }
+//        viewModel.selectBook.nonNullObserve(this){
+//            Toast.makeText(this, "it.title : ${it.title}", Toast.LENGTH_SHORT).show()
+//        }
     }
 
     override fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {

@@ -103,4 +103,7 @@ dependencies {
     testImplementation "androidx.paging:paging-common-ktx:$paging_version" // For Kotlin use paging-common-ktx
     // optional - RxJava support
     implementation "androidx.paging:paging-rxjava2-ktx:$paging_version" // For Kotlin use paging-rxjava2-ktx
+
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+    implementation 'joda-time:joda-time:2.10.10'
 }
