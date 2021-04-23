@@ -82,8 +82,10 @@
 
         <CheckBox
             android:id="@+id/likeCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:button="@android:color/transparent"
+            android:background="@drawable/selector_like"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 

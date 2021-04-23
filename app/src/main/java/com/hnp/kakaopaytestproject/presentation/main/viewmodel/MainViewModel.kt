@@ -19,6 +19,17 @@ class MainViewModel @Inject constructor(
     val errorMessage = LiveVar<String>()
 
     val selectedBook = LiveVar<Document>()
+    val isLikeChanged = LiveVar(false)
+
+    init {
+        actionInit()
+    }
+
+    private fun actionInit(){
+        errorMessage.set(null)
+        selectedBook.set(null)
+        isLikeChanged.set(false)
+    }
 
     fun requestSearchBook(bookName: String): LiveData<PagedList<Document>> {
         return LivePagedListBuilder<Int, Document>(dataSource(bookName), PagingOptions.pageListConfig()).build()
@@ -30,5 +41,9 @@ class MainViewModel @Inject constructor(
                 return BooksDataSource(bookName, mainRequester)
             }
         }
+    }
+
+    fun clear(){
+        actionInit()
     }
 }

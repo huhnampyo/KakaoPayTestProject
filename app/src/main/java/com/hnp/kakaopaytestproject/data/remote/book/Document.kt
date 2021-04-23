@@ -29,5 +29,6 @@ data class Document(
     val translators: List<String>,
     @Json(name = "url")
     val url: String,
+    var layoutPosition: Int = -1,
     var isLike: Boolean = false
 )

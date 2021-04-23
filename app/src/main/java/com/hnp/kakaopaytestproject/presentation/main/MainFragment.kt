@@ -27,7 +27,34 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         Log.e("hnp", "MainFragment onViewCreated")
 
         initUI()
+        initObservable()
+        initSearchViewListener()
+    }
 
+    /**
+     * paging 어뎁터를 설정.
+     */
+    private fun initUI(){
+        contentRecyclerView.apply {
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+            setHasFixedSize(true)
+            adapter = bookMainPageAdapter
+        }
+    }
+
+    /**
+     * 선택된 책의 변경이 이루어질때 화면 갱신 (옵저버)
+     */
+    private fun initObservable(){
+        viewModel.isLikeChanged.nonNullObserve(this) {
+            bookMainPageAdapter.notifyDataSetChanged()
+        }
+    }
+
+    /**
+     * 상단 검색뷰의 이벤트를 리스닝
+     */
+    private fun initSearchViewListener() {
         searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
@@ -45,34 +72,25 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         })
     }
 
-    private fun initUI(){
-        contentRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
-        contentRecyclerView.setHasFixedSize(true)
-        contentRecyclerView.adapter = bookMainPageAdapter
-    }
-
+    /**
+     * pageAdapter를 생성합니다.
+     */
     private fun createBookMainPageAdapter(): BookMainPageAdapter {
         return BookMainPageAdapter {
-//            viewModel.selectedBook.set(it)
+            viewModel.selectedBook.set(it)
         }
     }
 
+    /**
+     * onAttach 시 의존성을 주입해줍니다.
+     */
     override fun onAttach(context: Context) {
         (requireActivity().application as KakaoApp)
-            .appComponent
-            .mainComponent()
-            .create()
-            .inject(this)
+                .appComponent
+                .mainComponent()
+                .create()
+                .inject(this)
 
         super.onAttach(context)
-    }
-
-    companion object {
-        fun newInstance(): MainFragment {
-            return MainFragment()
-        }
-
-        private var schemeBundle: Bundle? = null
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
 }

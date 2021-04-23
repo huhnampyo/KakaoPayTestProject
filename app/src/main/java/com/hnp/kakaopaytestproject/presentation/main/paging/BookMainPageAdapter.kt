@@ -7,18 +7,12 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.hnp.kakaopaytestproject.R
 import com.hnp.kakaopaytestproject.data.remote.book.Document
-import com.hnp.kakaopaytestproject.presentation.GlideApp
 import com.hnp.kakaopaytestproject.presentation.extension.getConvertDateToString
 import kotlinx.android.synthetic.main.viewholder_book_content.view.*
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.ISODateTimeFormat
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 class BookMainPageAdapter(private val action: (content: Document) -> Unit = {}) : PagedListAdapter<Document, BookMainPageAdapter.ViewHolder>(diffCallback) {
 
@@ -49,7 +43,9 @@ class BookMainPageAdapter(private val action: (content: Document) -> Unit = {}) 
 
         fun bind(item: Document) {
 
-            GlideApp.with(itemView.bookImageVIew)
+            item.layoutPosition = layoutPosition
+
+            Glide.with(itemView.bookImageVIew)
                     .load(item.thumbnail)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
