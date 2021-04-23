@@ -7,10 +7,12 @@ import com.hnp.kakaopaytestproject.data.remote.book.BooksResponse
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class AppServiceImpl @Inject constructor(
-    private val remoteApi: RemoteService
+    private val remoteApi: RemoteService,
+    private val subject: PublishSubject<String>
 ) : AppService {
 
     override fun requestSearchBook(
@@ -26,6 +28,7 @@ class AppServiceImpl @Inject constructor(
         ).subscribeOn(Schedulers.io())
             .subscribeBy(
                 onSuccess = { response ->
+                    subject.onNext("이벤트 에러 전달")
                     callback.onSuccess(response)
                 },
                 onError = {

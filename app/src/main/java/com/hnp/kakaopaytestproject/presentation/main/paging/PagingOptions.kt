@@ -9,8 +9,9 @@ object PagingOptions {
     fun pageListConfig(): PagedList.Config {
         return PagedList.Config.Builder()
         .setPageSize(pageSize)
-        .setInitialLoadSizeHint(pageSize * 2)
+        .setInitialLoadSizeHint(pageSize)
         .setEnablePlaceholders(false)
+        .setPrefetchDistance(pageSize/2)
         .build()
     }
 }

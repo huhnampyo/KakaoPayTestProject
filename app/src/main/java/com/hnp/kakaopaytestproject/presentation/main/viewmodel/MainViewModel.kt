@@ -8,6 +8,7 @@ import com.hnp.kakaopaytestproject.presentation.MainRequester
 import com.hnp.kakaopaytestproject.presentation.main.paging.BooksDataSource
 import com.hnp.kakaopaytestproject.presentation.main.paging.PagingOptions
 import com.hnp.kakaopaytestproject.presentation.viewmodel.LiveVar
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +19,18 @@ class MainViewModel @Inject constructor(
 
     val errorMessage = LiveVar<String>()
 
-    val selectBook = LiveVar<Document>()
+    val selectedBook = LiveVar<Document>()
+    val isLikeChanged = LiveVar(false)
+
+    init {
+        actionInit()
+    }
+
+    private fun actionInit(){
+        errorMessage.set(null)
+        selectedBook.set(null)
+        isLikeChanged.set(false)
+    }
 
     fun requestSearchBook(bookName: String): LiveData<PagedList<Document>> {
         return LivePagedListBuilder<Int, Document>(dataSource(bookName), PagingOptions.pageListConfig()).build()
@@ -30,5 +42,9 @@ class MainViewModel @Inject constructor(
                 return BooksDataSource(bookName, mainRequester)
             }
         }
+    }
+
+    fun clear(){
+        actionInit()
     }
 }

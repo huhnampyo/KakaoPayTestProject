@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [ServiceModule::class, ViewModelModule::class]
+    modules = [ErrorDisplayModule::class, ServiceModule::class, ViewModelModule::class]
 )
 interface AppComponent {
     fun mainComponent(): MainComponent.Factory

@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface RemoteService {
 
-    @GET("v3/search/book")
+    @GET("v3/search/book?target=title")
     fun getSearchBook(
         @Query("query") query: String,
         @Query("page") page: Int,

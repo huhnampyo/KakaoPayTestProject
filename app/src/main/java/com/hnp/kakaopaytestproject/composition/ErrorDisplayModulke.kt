@@ -6,7 +6,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Singleton
 
 @Module
-class ErrorDisplayModulke {
+class ErrorDisplayModule {
     @Provides
     @Singleton
     fun providesErrorSub(): PublishSubject<String> = PublishSubject.create()

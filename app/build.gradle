@@ -20,32 +20,17 @@ android {
     }
 
     buildTypes {
-        debug {
-            buildConfigField "String", "GRADLE_API_BASE_URL", "\"https://dapi.kakao.com\""
-            buildConfigField "String", "GRADLE_KAKAO_REST_API_KEY", "\"5eff623dc880d33b056d6e61b604c838\""
-
-            applicationVariants.all { variant ->
-                variant.outputs.all {
-                    def date = new Date()
-                    def formattedDate = date.format('yyyyMMdd')
-                    outputFileName = "KakaoTest_hnp_debug_${defaultConfig.versionName}_${formattedDate}_debug.apk"
-                }
-            }
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             buildConfigField "String", "GRADLE_API_BASE_URL", "\"https://dapi.kakao.com\""
             buildConfigField "String", "GRADLE_KAKAO_REST_API_KEY", "\"5eff623dc880d33b056d6e61b604c838\""
+        }
 
-            applicationVariants.all { variant ->
-                variant.outputs.all {
-                    def date = new Date()
-                    def formattedDate = date.format('yyyyMMdd')
-                    outputFileName = "KakaoTest_hnp_release_${defaultConfig.versionName}_${formattedDate}.apk"
-                }
-            }
+        debug {
+            buildConfigField "String", "GRADLE_API_BASE_URL", "\"https://dapi.kakao.com\""
+            buildConfigField "String", "GRADLE_KAKAO_REST_API_KEY", "\"5eff623dc880d33b056d6e61b604c838\""
         }
     }
     compileOptions {
@@ -103,4 +88,7 @@ dependencies {
     testImplementation "androidx.paging:paging-common-ktx:$paging_version" // For Kotlin use paging-common-ktx
     // optional - RxJava support
     implementation "androidx.paging:paging-rxjava2-ktx:$paging_version" // For Kotlin use paging-rxjava2-ktx
+
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+    implementation 'joda-time:joda-time:2.10.10'
 }
