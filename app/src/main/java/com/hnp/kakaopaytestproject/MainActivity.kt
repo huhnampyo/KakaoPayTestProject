@@ -1,9 +1,9 @@
 package com.hnp.kakaopaytestproject
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -11,8 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.hnp.kakaopaytestproject.presentation.main.BookDetailFragment
 import com.hnp.kakaopaytestproject.presentation.main.MainFragment
 import com.hnp.kakaopaytestproject.presentation.main.viewmodel.MainViewModel
-import io.reactivex.rxjava3.kotlin.subscribeBy
-import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -51,6 +49,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             viewModel.clear()
             super.onBackPressed()
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home ->{
+                onBackPressed()
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun clearBackStack() {
