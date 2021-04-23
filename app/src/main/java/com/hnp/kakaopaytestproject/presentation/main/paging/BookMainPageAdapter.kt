@@ -52,7 +52,7 @@ class BookMainPageAdapter(private val action: (content: Document) -> Unit = {}) 
                     .skipMemoryCache(true)
                     .centerCrop()
                     .into(itemView.bookImageVIew)
-            itemView.bookNameTextView.text = "${layoutPosition} 책 이름 : \n${item.title}"
+            itemView.bookNameTextView.text = "${layoutPosition+1}. 책 이름 : \n${item.title}"
             itemView.createDateTextView.text = "출시일 : \n${item.datetime.getConvertDateToString("yyyy년-MM월-dd일")}"
             itemView.singleLineDurationTextView.text = if(item.contents.isNotEmpty()) "${item.contents}" else "책 내용이 없습니다."
             itemView.priceTextView.text = "${item.price}"
