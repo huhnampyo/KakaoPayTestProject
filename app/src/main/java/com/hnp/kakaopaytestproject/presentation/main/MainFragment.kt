@@ -15,12 +15,7 @@ import com.hnp.kakaopaytestproject.KakaoApp
 import com.hnp.kakaopaytestproject.R
 import com.hnp.kakaopaytestproject.presentation.main.paging.BookMainPageAdapter
 import com.hnp.kakaopaytestproject.presentation.main.viewmodel.MainViewModel
-import io.reactivex.rxjava3.kotlin.subscribeBy
-import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_main.*
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
@@ -53,6 +48,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      * 선택된 책의 변경이 이루어질때 화면 갱신 (옵저버)
      */
     private fun initObservable(){
+        viewModel.errorMsg.nonNullObserve(this){
+            if(it.isNotEmpty()){
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            }
+        }
+
         viewModel.isLikeChanged.nonNullObserve(this) {
             bookMainPageAdapter.notifyDataSetChanged()
         }

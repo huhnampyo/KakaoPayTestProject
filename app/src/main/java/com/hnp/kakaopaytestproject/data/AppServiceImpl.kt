@@ -11,8 +11,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class AppServiceImpl @Inject constructor(
-    private val remoteApi: RemoteService,
-    private val subject: PublishSubject<String>
+    private val remoteApi: RemoteService
 ) : AppService {
 
     override fun requestSearchBook(
@@ -28,11 +27,10 @@ class AppServiceImpl @Inject constructor(
         ).subscribeOn(Schedulers.io())
             .subscribeBy(
                 onSuccess = { response ->
-                    subject.onNext("이벤트 에러 전달")
                     callback.onSuccess(response)
                 },
                 onError = {
-                    it.printStackTrace()
+                    callback.onFailure(it)
                 }
             )
     }

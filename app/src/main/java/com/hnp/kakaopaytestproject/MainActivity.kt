@@ -17,9 +17,6 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     @Inject
-    lateinit var errorSub: PublishSubject<String>
-
-    @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel by viewModels<MainViewModel>()
@@ -44,10 +41,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 setReorderingAllowed(true)
                 addToBackStack("detail") // name can be null
             }
-        }
-
-        errorSub.subscribe{
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
     }
 
