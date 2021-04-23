@@ -4,14 +4,14 @@ import androidx.paging.PagedList
 
 object PagingOptions {
 
-    private const val pageSize = 50
+    private const val PAGE_SIZE = 50
 
     fun pageListConfig(): PagedList.Config {
         return PagedList.Config.Builder()
-        .setPageSize(pageSize)
-        .setInitialLoadSizeHint(pageSize)
+        .setPageSize(PAGE_SIZE)
+        .setInitialLoadSizeHint(PAGE_SIZE)
         .setEnablePlaceholders(false)
-        .setPrefetchDistance(pageSize/2)
+        .setPrefetchDistance(PAGE_SIZE/2)
         .build()
     }
 }

@@ -97,8 +97,13 @@ fun String.toFormattedPrice(만여부: Boolean): String {
 }
 
 fun String.getConvertDateToString(customFormat: String):String{
-    val dtf: org.joda.time.format.DateTimeFormatter? = ISODateTimeFormat.dateTime()
-    val parsedDate: org.joda.time.LocalDateTime? = dtf?.parseLocalDateTime(this)
-    return parsedDate?.toString(DateTimeFormat.forPattern(customFormat))
+    return try{
+        val dtf: org.joda.time.format.DateTimeFormatter? = ISODateTimeFormat.dateTime()
+        val parsedDate: org.joda.time.LocalDateTime? = dtf?.parseLocalDateTime(this)
+        parsedDate?.toString(DateTimeFormat.forPattern(customFormat))
             ?: "-"
+    }catch (e : IllegalArgumentException){
+        "-"
+    }
+
 }

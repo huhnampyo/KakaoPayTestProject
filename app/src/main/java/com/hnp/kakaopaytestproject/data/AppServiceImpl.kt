@@ -7,6 +7,7 @@ import com.hnp.kakaopaytestproject.data.remote.book.BooksResponse
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class AppServiceImpl @Inject constructor(

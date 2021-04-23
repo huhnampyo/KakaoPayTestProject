@@ -3,6 +3,8 @@ package com.hnp.kakaopaytestproject.presentation.main.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.*
+import com.google.gson.Gson
+import com.hnp.kakaopaytestproject.data.remote.ErrorResponse
 import com.hnp.kakaopaytestproject.data.remote.book.Document
 import com.hnp.kakaopaytestproject.presentation.MainRequester
 import com.hnp.kakaopaytestproject.presentation.main.paging.BooksDataSource
@@ -37,8 +39,13 @@ class MainViewModel @Inject constructor(
                 return BooksDataSource(bookName, mainRequester) {
                     var error = "통신에러가 발생했습니다\n다시 시도해주세요"
                     if(it is HttpException){
-                        error = "${it.code()} : ${it.message}"
-
+                        val errorBodyJson = it.response()?.errorBody()?.string()
+                        errorBodyJson?.let {errorString ->
+                            var errorResponse = Gson().fromJson(errorString, ErrorResponse::class.java)
+                            if(!errorResponse.message.isNullOrEmpty()){
+                                error = errorResponse.message
+                            }
+                        }
                     }
                     errorMsg.set(error)
                 }

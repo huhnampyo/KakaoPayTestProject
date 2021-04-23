@@ -15,18 +15,16 @@ class BooksDataSource(
 
     private val totalElements by lazy { totalElements() }
     private var page = 1
+    private var isPagingEnd = false
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Document>) {
         val firstLoadPosition = computeInitialLoadPosition(params, totalElements)
         val loadSize = computeInitialLoadSize(params, firstLoadPosition, totalElements)
 
-        Log.d("OkHttp", "totalElements : $totalElements")
-        Log.d("OkHttp", "firstLoadPosition : $firstLoadPosition")
-        Log.d("OkHttp", "loadSize : $loadSize")
-
         mainRequester.requestSearchBook(query = searchName, page=page++, size=loadSize, callback=object :
             Callback<BooksResponse>{
             override fun onSuccess(result: BooksResponse) {
+                isPagingEnd = result.meta.is_end
                 callback.onResult(result.documents, 0)
             }
 
@@ -38,11 +36,16 @@ class BooksDataSource(
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Document>) {
 
-        if( page*50 < totalElements ){
-            Log.d("hnp", "=== loadRange ===")
-            mainRequester.requestSearchBook(query = searchName, page=page++, size=50, callback=object :
+        Log.d("hnp", "page : $page")
+        Log.d("hnp", "params.startPosition, : $${params.startPosition}")
+        Log.d("hnp", "totalElements : $totalElements")
+
+        if( !isPagingEnd ){
+
+            mainRequester.requestSearchBook(query = searchName, page=page++, size=params.loadSize, callback=object :
                     Callback<BooksResponse>{
                 override fun onSuccess(result: BooksResponse) {
+                    isPagingEnd = result.meta.is_end
                     callback.onResult(result.documents)
                 }
 
