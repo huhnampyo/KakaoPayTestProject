@@ -12,6 +12,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.hnp.kakaopaytestproject.R
 import com.hnp.kakaopaytestproject.data.remote.book.Document
 import com.hnp.kakaopaytestproject.presentation.extension.getConvertDateToString
+import kotlinx.android.synthetic.main.fragment_book_detail.*
 import kotlinx.android.synthetic.main.viewholder_book_content.view.*
 
 class BookMainPageAdapter(private val action: (content: Document) -> Unit = {}) : PagedListAdapter<Document, BookMainPageAdapter.ViewHolder>(diffCallback) {
@@ -53,11 +54,13 @@ class BookMainPageAdapter(private val action: (content: Document) -> Unit = {}) 
                     .into(itemView.bookImageVIew)
             itemView.bookNameTextView.text = "책 이름 : \n${item.title}"
             itemView.createDateTextView.text = "출시일 : \n${item.datetime.getConvertDateToString("yyyy년-MM월-dd일")}"
-            itemView.singleLineDurationTextView.text = "${item.contents}"
+            itemView.singleLineDurationTextView.text = if(item.contents.isNotEmpty()) "${item.contents}" else "책 내용이 없습니다."
             itemView.priceTextView.text = "${item.price}"
             item.sale_price?.let {
-                itemView.priceTextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                itemView.priceSaleTextView.text = " / $it"
+                if(it > 0){
+                    itemView.priceTextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    itemView.priceSaleTextView.text = " / $it"
+                }
             }
 
             itemView.likeCheckBox.setOnCheckedChangeListener(null)

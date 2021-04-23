@@ -1,9 +1,11 @@
 package com.hnp.kakaopaytestproject.presentation.main
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -13,10 +15,15 @@ import com.hnp.kakaopaytestproject.KakaoApp
 import com.hnp.kakaopaytestproject.R
 import com.hnp.kakaopaytestproject.presentation.main.paging.BookMainPageAdapter
 import com.hnp.kakaopaytestproject.presentation.main.viewmodel.MainViewModel
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_main.*
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
 class MainFragment : Fragment(R.layout.fragment_main) {
+
     private val viewModel by activityViewModels<MainViewModel>()
 
     private val bookMainPageAdapter by lazy { createBookMainPageAdapter() }

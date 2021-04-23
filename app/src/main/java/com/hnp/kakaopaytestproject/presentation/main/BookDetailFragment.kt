@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -28,11 +27,6 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         initUI()
-
-        val toolbar: Toolbar = view.findViewById(R.id.toolbar)
-
-        toolbar.setNavigationIcon(android.R.drawable.ic_input_delete)
-        toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -77,34 +71,34 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
         selectedBook.get()?.let {
 
             Glide.with(bookDetailImageView)
-                    .load(it.thumbnail)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .centerCrop()
-                    .into(bookDetailImageView)
+                .load(it.thumbnail)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .centerCrop()
+                .into(bookDetailImageView)
 
             bookNameTextView.text = "책 이름 : ${it.title}"
             bookCreateTextView.text = "출시일 : ${it.datetime.getConvertDateToString("yyyy년-MM월-dd일")}"
             publisherTextView.text = "출판사 : ${it.publisher}"
-            durationTextView.text = "${it.contents}"
+            durationTextView.text = if(it.contents.isNotEmpty()) "${it.contents}" else "책 내용이 없습니다."
             durationTextView.movementMethod = ScrollingMovementMethod()
 
             priceTextView.text = "${it.price}"
             it.sale_price?.let {salePrice ->
-                priceTextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                priceSaleTextView.text = " / $salePrice"
+                if(salePrice > 0) {
+                    priceTextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    priceSaleTextView.text = " / $salePrice"
+                }
             }
         }
-
-
     }
 
     override fun onAttach(context: Context) {
         (requireActivity().application as KakaoApp)
-                .appComponent
-                .bookDetailComponent()
-                .create()
-                .inject(this)
+            .appComponent
+            .bookDetailComponent()
+            .create()
+            .inject(this)
 
         super.onAttach(context)
     }

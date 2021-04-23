@@ -2,6 +2,7 @@ package com.hnp.kakaopaytestproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
@@ -10,9 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.hnp.kakaopaytestproject.presentation.main.BookDetailFragment
 import com.hnp.kakaopaytestproject.presentation.main.MainFragment
 import com.hnp.kakaopaytestproject.presentation.main.viewmodel.MainViewModel
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
+    @Inject
+    lateinit var errorSub: PublishSubject<String>
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -38,6 +44,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 setReorderingAllowed(true)
                 addToBackStack("detail") // name can be null
             }
+        }
+
+        errorSub.subscribe{
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
     }
 
