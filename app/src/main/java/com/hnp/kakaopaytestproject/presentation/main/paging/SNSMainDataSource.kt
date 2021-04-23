@@ -9,7 +9,8 @@ import com.hnp.kakaopaytestproject.presentation.MainRequester
 
 class BooksDataSource(
     private val searchName: String,
-    private val mainRequester: MainRequester
+    private val mainRequester: MainRequester,
+    private val errorAction: (Throwable) -> Unit = {}
 ) : PositionalDataSource<Document>() {
 
     private val totalElements by lazy { totalElements() }
@@ -30,9 +31,8 @@ class BooksDataSource(
             }
 
             override fun onFailure(e: Throwable) {
-                e.printStackTrace()
+                errorAction.invoke(e)
             }
-
         })
     }
 
@@ -47,9 +47,8 @@ class BooksDataSource(
                 }
 
                 override fun onFailure(e: Throwable) {
-                    e.printStackTrace()
+                    errorAction.invoke(e)
                 }
-
             })
         }
 
