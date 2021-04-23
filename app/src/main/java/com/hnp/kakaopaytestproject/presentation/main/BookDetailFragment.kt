@@ -48,10 +48,6 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
                 checkLikeMenuItem(item)
                 return true
             }
-            android.R.id.home ->{
-                requireActivity().onBackPressed()
-                return true
-            }
         }
 
         return super.onOptionsItemSelected(item)

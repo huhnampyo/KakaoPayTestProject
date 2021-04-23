@@ -2,7 +2,9 @@ package com.hnp.kakaopaytestproject.presentation.main.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.*
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.google.gson.Gson
 import com.hnp.kakaopaytestproject.data.remote.ErrorResponse
 import com.hnp.kakaopaytestproject.data.remote.book.Document
@@ -24,6 +26,7 @@ class MainViewModel @Inject constructor(
     val isLikeChanged = LiveVar(false)
 
     private fun actionInit(){
+        errorMsg.set(null)
         selectedBook.set(null)
         isLikeChanged.set(false)
     }
